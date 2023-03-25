@@ -10,8 +10,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/movies")
 public class MovieController {
-    @Autowired
-    MovieService movieService;
+
+    MovieService movieService=new MovieService();
 
     @PostMapping("/add-movie")
     public ResponseEntity<String> addMovie(@RequestBody Movie movie){
@@ -39,9 +39,9 @@ public class MovieController {
         return new ResponseEntity<>(movieService.getDirectorByName(name),HttpStatus.CREATED);
     }
 
-    @GetMapping("/get-movies-by-director-name/{name}")
-    public ResponseEntity<List<String>> getMoviesByDirectorName(@PathVariable("name")String name){
-        return new ResponseEntity<>(movieService.getMoviesByDirectorName(name),HttpStatus.CREATED);
+    @GetMapping("/get-movies-by-director-name/{director}")
+    public ResponseEntity<List<String>> getMoviesByDirectorName(@PathVariable("director")String director){
+        return new ResponseEntity<>(movieService.getMoviesByDirectorName(director),HttpStatus.CREATED);
     }
 
     @GetMapping("/get-all-movies")
