@@ -13,7 +13,7 @@ public class MovieRepository {
     Map<String,Movie> movieMap= new HashMap<>();
     Map<String,Director> directorMap = new HashMap<>();
 
-    Map<String,String> pairMap=new HashMap<>();
+    Map<String,List<String>> pairMap=new HashMap<>();
 
     public String addMovie(Movie movie){
         movieMap.put(movie.getName(),movie);
@@ -34,39 +34,33 @@ public class MovieRepository {
     }
 
     public String deleteDirector(String name){
-        for(Map.Entry<String,String> map: pairMap.entrySet()){
-            if(map.getValue().equals(name)) {
-                String movieName = map.getKey();
-                movieMap.remove(movieName);
-                pairMap.remove(movieName);
-            }
+        for(String movie:pairMap.get(name)){
+            movieMap.remove(movie);
         }
         directorMap.remove(name);
-
+        pairMap.remove(name);
         return "Success";
     }
 
     public String addMovieDirectorPair(String mName, String dName){
-        pairMap.put(mName,dName);
+        List<String> movieList = new ArrayList<>();
+        if(pairMap.containsKey(dName))
+            movieList=pairMap.get(dName);
+        movieList.add(mName);
         return "Success";
     }
 
 
     public List<String> getMoviesByDirectorName(String name){
-        List<String> movieList=new ArrayList<>();
-        for(Map.Entry<String,String> map: pairMap.entrySet()){
-            if(map.getValue().equals(name))
-                movieList.add(map.getKey());
-        }
-        return movieList;
+
+        return pairMap.get(name);
     }
 
     public String deleteAllDirectors(){
-        for(String movieName: pairMap.keySet())
-            movieMap.remove(movieName);
-
-//        for(String directorName: pairMap.values())
-//            directorMap.remove(directorName);
+        for(List<String> movie: pairMap.values()){
+            for(String s:movie)
+                movieMap.remove(s);
+        }
 
         directorMap.clear();
         pairMap.clear();
