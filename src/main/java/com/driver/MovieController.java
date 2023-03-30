@@ -8,10 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("movies")
+@RequestMapping("/movies")
 public class MovieController {
 
-    MovieService movieService=new MovieService();
+    @Autowired
+    MovieService movieService;
 
     @PostMapping("/add-movie")
     public ResponseEntity<String> addMovie(@RequestBody Movie movie){
