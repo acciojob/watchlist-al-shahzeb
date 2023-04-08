@@ -47,6 +47,7 @@ public class MovieRepository {
         if(pairMap.containsKey(dName))
             movieList=pairMap.get(dName);
         movieList.add(mName);
+        pairMap.put(dName,movieList);
         return "Success";
     }
 
